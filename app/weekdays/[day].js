@@ -52,6 +52,7 @@ export default function Day() {
         let dataArray = jsonValue != null ? JSON.parse(jsonValue) : []
         dataArray.push({name: type.exercise_name, sets: type.exercise_sets})
         await AsyncStorage.setItem(`${day}-exercises`, JSON.stringify(dataArray))
+        setType({})
       } catch (e) {
         console.error('Failed to save data to AsyncStorage', e);
       }
@@ -63,7 +64,7 @@ export default function Day() {
     }
 
     const Clear = async()=>{
-      await AsyncStorage.clear()
+      await AsyncStorage.removeItem(`${day}-exercises`);
       refresh()
     }
 
@@ -87,8 +88,8 @@ export default function Day() {
       {Async_Workout && <Text>{Async_Workout}</Text>}
       {!Async_Workout && <Button title='set workout' onPress={Workout}/>}
       <Text>...</Text>
-      <TextInput placeholder='Exercise' onChangeText={(val)=>setType((prev)=>({...prev,exercise_name: val}))}/>
-      <TextInput placeholder='sets' onChangeText={(val)=>setType((prev)=>({...prev,exercise_sets: val}))}/>
+      <TextInput placeholder='Exercise' onChangeText={(val)=>setType((prev)=>({...prev,exercise_name: val}))} value={type.exercise_name}/>
+      <TextInput placeholder='sets' onChangeText={(val)=>setType((prev)=>({...prev,exercise_sets: val}))} value={type.exercise_sets}/>
       <Button title='ADD' onPress={AddExercise}/>
       <Button onPress={Clear} title='reset'/>
       <View>
