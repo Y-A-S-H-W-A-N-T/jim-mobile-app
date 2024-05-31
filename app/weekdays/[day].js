@@ -64,7 +64,8 @@ export default function Day() {
     }
 
     const Clear = async()=>{
-      await AsyncStorage.removeItem(`${day}-exercises`);
+      await AsyncStorage.removeItem(`${day}-exercises`)
+      await AsyncStorage.removeItem(`${day}-workout`)
       refresh()
     }
 
