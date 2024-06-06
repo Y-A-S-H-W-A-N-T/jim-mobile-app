@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Progress() {
 
@@ -8,6 +8,23 @@ export default function Progress() {
   const num = new Date().getDay()
   const [workout,setWorkout] = useState('')
   const [exercises,setExercises] = useState([])
+
+  const fetchExercises = async()=>{
+    try {
+      const jsonValue = await AsyncStorage.getItem(`${days[num-1]}-exercises`)
+      if(jsonValue != null)
+      {
+        const new_exercise = JSON.parse(jsonValue).map((val)=>({
+          ...val,
+          done: 0
+        }))
+        setExercises(new_exercise)
+      }
+      
+    } catch (e) {
+      console.error('Failed to fetch data from AsyncStorage', e);
+    }
+  }
 
   useEffect(()=>{
     const fetchDayWorkout = async()=>{
@@ -18,27 +35,13 @@ export default function Progress() {
         console.error('Failed to fetch data from AsyncStorage', e);
       }
     }
-    const fetchExercises = async()=>{
-      try {
-        const jsonValue = await AsyncStorage.getItem(`${days[num-1]}-exercises`)
-        if(jsonValue != null)
-        {
-          const new_exercise = JSON.parse(jsonValue).map((val)=>({
-            ...val,
-            done: 0
-          }))
-          setExercises(new_exercise)
-        }
-        
-      } catch (e) {
-        console.error('Failed to fetch data from AsyncStorage', e);
-      }
-    }
     fetchDayWorkout()
     fetchExercises()
   },[])
 
-  console.log(exercises)
+  const callExercises = ()=>{
+    fetchExercises()
+  }
 
   const setDone = (id)=>{
     setExercises(prev => {
@@ -51,7 +54,7 @@ export default function Progress() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{days[num-1].toUpperCase()}</Text>
+      <Text style={styles.title} onPress={callExercises}>{days[num-1].toUpperCase()}</Text>
       <Text>{workout}</Text>
       <View>
           <FlatList
