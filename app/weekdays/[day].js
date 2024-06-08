@@ -85,24 +85,26 @@ export default function Day() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{day.toUpperCase()}</Text>
-      {!Async_Workout && <TextInput placeholder='Add Day' onChangeText={(val)=>setWorkout(val)} value={workout}/>}
-      {Async_Workout && <Text>{Async_Workout}</Text>}
-      {!Async_Workout && <Button title='set workout' onPress={Workout}/>}
-      <Text>...</Text>
-      <TextInput placeholder='Exercise' onChangeText={(val)=>setType((prev)=>({...prev,exercise_name: val}))} value={type.exercise_name}/>
-      <TextInput placeholder='sets' onChangeText={(val)=>setType((prev)=>({...prev,exercise_sets: val}))} value={type.exercise_sets}/>
-      <Button title='ADD' onPress={AddExercise}/>
-      <Button onPress={Clear} title='reset'/>
-      <View>
-          <FlatList
-            data={exercises}
-            renderItem={({ item })=>(
-              <View>
-                  <Text>{item.name} - {item.sets}x{item.sets}</Text><Button title='Remove exercise' onPress={()=>RemoveExercise(item.name)}/>
-              </View>
-            )}
-          />
+      {!Async_Workout && <TextInput style={styles.input} placeholder='Workout' onChangeText={(val) => setWorkout(val)} value={workout} />}
+      {Async_Workout && <Text style={styles.workoutText}>{Async_Workout}</Text>}
+      {!Async_Workout && <Button title='Set Workout' onPress={Workout} />}
+      <Text style={styles.separator}>...</Text>
+      <TextInput style={styles.input} placeholder='Exercise' onChangeText={(val) => setType((prev) => ({ ...prev, exercise_name: val }))} value={type.exercise_name} />
+      <TextInput style={styles.input} placeholder='Sets' onChangeText={(val) => setType((prev) => ({ ...prev, exercise_sets: val }))} value={type.exercise_sets} keyboardType='numeric' />
+      <Button title='ADD' onPress={AddExercise} />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={exercises}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.listItem}>
+              <Text style={styles.listItemText}>{item.name} - {item.sets}x{item.sets}</Text>
+              <Button title='❌' onPress={() => RemoveExercise(item.name)} color='#d9534f' />
+            </View>
+          )}
+        />
       </View>
+      <Button onPress={Clear} title='Reset' color='#d9534f'/>
     </View>
   )
 }
@@ -110,21 +112,52 @@ export default function Day() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 64,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
+  input: {
+    width: '100%',
+    padding: 10,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    textAlign: 'center'
   },
+  workoutText: {
+    fontSize: 18,
+    marginVertical: 10,
+  },
+  separator: {
+    marginVertical: 10,
+    fontSize: 18,
+  },
+  listContainer: {
+    marginTop: 20,
+    width: '100%',
+    height: 300,
+    marginBottom: 20
+  },
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  listItemText: {
+    fontSize: 16,
+  }
 });
