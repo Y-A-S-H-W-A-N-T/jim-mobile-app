@@ -21,7 +21,6 @@ export default function Day() {
       const getExercises = async()=>{
         try {
           const jsonValue = await AsyncStorage.getItem(`${day}-exercises`)
-          console.log(jsonValue)
           jsonValue != null ? addexercises(JSON.parse(jsonValue)) : [];
         } catch (e) {
           console.error('Failed to fetch data from AsyncStorage', e);
@@ -80,18 +79,16 @@ export default function Day() {
       await AsyncStorage.setItem(`${day}-exercises`, JSON.stringify(data))
     }
 
-    console.log(exercises)
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{day.toUpperCase()}</Text>
       {!Async_Workout && <TextInput style={styles.input} placeholder='Workout' onChangeText={(val) => setWorkout(val)} value={workout} />}
-      {Async_Workout && <Text style={styles.workoutText}>{Async_Workout}</Text>}
+      {Async_Workout && <Text style={styles.workoutText}>{Async_Workout.toUpperCase()}</Text>}
       {!Async_Workout && <Button title='Set Workout' onPress={Workout} />}
       <Text style={styles.separator}>...</Text>
       <TextInput style={styles.input} placeholder='Exercise' onChangeText={(val) => setType((prev) => ({ ...prev, exercise_name: val }))} value={type.exercise_name} />
       <TextInput style={styles.input} placeholder='Sets' onChangeText={(val) => setType((prev) => ({ ...prev, exercise_sets: val }))} value={type.exercise_sets} keyboardType='numeric' />
-      <Button title='ADD' onPress={AddExercise} />
+      <Button title='ADD' onPress={AddExercise} color={'#6F25CA'}/>
       <View style={styles.listContainer}>
         <FlatList
           data={exercises}
@@ -120,7 +117,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginVertical: 10,
+    marginVertical: 20,
+    color: '#6F25CA'
   },
   input: {
     width: '100%',
@@ -135,6 +133,7 @@ const styles = StyleSheet.create({
   workoutText: {
     fontSize: 18,
     marginVertical: 10,
+    color: '#6F25CA'
   },
   separator: {
     marginVertical: 10,

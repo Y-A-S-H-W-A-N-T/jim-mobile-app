@@ -11,14 +11,21 @@ export default function Home() {
 
   const [prompt,setPrompt] = useState('')
   const [res,setRes] = useState('')
+  const [loading,setLoading] = useState(false)
 
   const AI = async()=>{
-    console.log(prompt)
-    const result = await model.generateContent(`${prompt},list the values, answer in points line by line, while answering dont use '**', use natural numbers`)
-    const response = await result.response;
-    const text = response.text();
-    setRes(text)
-    console.log(text)
+    if(prompt==='') return alert('ASK SOMETHING TO THE TRAINER')
+    setLoading(true)
+    try{
+      const result = await model.generateContent(`${prompt},list the values, answer in points line by line, while answering dont use '**', use natural numbers`)
+      const response = await result.response;
+      const text = response.text();
+      setRes(text)
+    }
+    catch(err){
+      console.error(err)
+    }
+    setLoading(false)
   }
 
   return (
@@ -29,8 +36,9 @@ export default function Home() {
         onChangeText={(val) => setPrompt(val)} 
       />
       <Text style={styles.buttonText} onPress={AI}>
-        ASK Trainer
+        ASK TRAINER
       </Text>
+      {loading && <Text>Generating...</Text>}
       <ScrollView style={styles.scrollView}>
         <Text style={styles.responseText}>
           {res}
@@ -59,11 +67,11 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007BFF',
+    color: 'white',
     textAlign: 'center',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#410C81',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',

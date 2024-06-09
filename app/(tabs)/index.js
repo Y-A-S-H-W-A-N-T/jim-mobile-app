@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,  // Font size for button text
     fontWeight: 'bold',  // Bold text
-    color: '#333',  // Dark text color
+    color: '#6F25CA',  // Dark text color
   },
 });

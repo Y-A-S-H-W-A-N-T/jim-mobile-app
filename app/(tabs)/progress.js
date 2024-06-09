@@ -57,8 +57,8 @@ export default function Progress() {
   return (
     <View style={styles.container}>
       <Text style={styles.title} onPress={callExercises}>{days[num].toUpperCase()}</Text>
-      <Text style={styles.workout}>{workout}</Text>
-      <Text style={{alignSelf: 'center'}} >Press on {days[num].toUpperCase()} to load and reset exercises</Text>
+      <Text style={styles.workout}>{workout.toUpperCase()}</Text>
+      <Text style={{alignSelf: 'center'}} >Press on {days[num].toUpperCase()} to load or reset exercises</Text>
       <View style={styles.listContainer}>
         <FlatList
           data={exercises}
@@ -91,21 +91,22 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff',
     textAlign: 'center',
     paddingVertical: 10,   // Padding for vertical space
     paddingHorizontal: 20, // Padding for horizontal space
-    backgroundColor: '#e0e0e0', // Light gray background to resemble a button
+    backgroundColor: '#9A5EE2', // Light gray background to resemble a button
     borderRadius: 5,       // Rounded corners
     borderWidth: 1,        // Border width
     borderColor: '#ccc',   // Border 
-    elevation: 10
+    elevation: 5
   },
   workout: {
     fontSize: 18,
-    color: '#555',
+    color: '#6F25CA',
     marginBottom: 20,
     textAlign: 'center',
+    fontWeight: 'bold'
   },
   listContainer: {
     flex: 1,
