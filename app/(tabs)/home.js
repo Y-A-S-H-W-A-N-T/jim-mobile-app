@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 
 export default function Home() {
 
-  const Google_Gemini_API = 'AIzaSyDKE5GFsQKP_YDz8HHTh2kclbg7ApHfuuk'
+  const Google_Gemini_API = 'GEMINI_API_KEY'
 
   const genAI = new GoogleGenerativeAI(Google_Gemini_API)
   const model = genAI.getGenerativeModel({ model: "gemini-pro" })
